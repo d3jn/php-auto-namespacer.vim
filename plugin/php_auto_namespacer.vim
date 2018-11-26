@@ -4,12 +4,6 @@
 " Version:    1.0
 " License:    MIT License
 
-if exists('g:php_auto_namespacer_disable')
-    if g:php_auto_namespacer_disable == 1
-        finish
-    endif
-endif
-
 if !exists('g:php_auto_namespacer_substitutes')
     let g:php_auto_namespacer_substitutes = {
 \       'app': 'App',
