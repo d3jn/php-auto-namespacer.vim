@@ -31,13 +31,11 @@ function! php_auto_namespacer#ConvertPathToPSR4(path, substitutes)
     endif
 
     let namespace = substitute(substitute(a:path, '/', '\', 'g'), '\\[^\\]\+$', '', 'g')
-    echom namespace
     let parts = split(namespace, '\\')
     let final_parts = []
 
     for part in parts
         let final_part = php_auto_namespacer#SubstitutePart(part, a:substitutes)
-        echom final_part
         if final_part == ''
             continue
         endif
