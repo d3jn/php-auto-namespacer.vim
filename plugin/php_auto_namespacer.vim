@@ -17,23 +17,38 @@ if !exists('g:php_auto_namespacer_substitutes')
 \   }
 endif
 
-function! s:ConvertPathToPSR4(path, substitutes)
+function! php_auto_namespacer#SubstitutePart(part, substitutes)
+    for [from_value, to_value] in items(a:substitutes)
+        if a:part == from_value
+            if to_value == ''
+                return ''
+            else
+                return to_value
+            endif
+        endif
+    endfor
+
+    return a:part
+endfunction
+
+function! php_auto_namespacer#ConvertPathToPSR4(path, substitutes)
+    if expand('%:t') == a:path
+        return ''
+    endif
+
     let namespace = substitute(substitute(a:path, '/', '\', 'g'), '\\[^\\]\+$', '', 'g')
+    echom namespace
     let parts = split(namespace, '\\')
     let final_parts = []
 
     for part in parts
-        for [from_value, to_value] in items(a:substitutes)
-            if part == from_value
-                if to_value == ''
-                    break
-                else
-                    call add(final_parts, to_value)
-                endif
-            else
-                call add(final_parts, part)
-            endif
-        endfor
+        let final_part = php_auto_namespacer#SubstitutePart(part, a:substitutes)
+        echom final_part
+        if final_part == ''
+            continue
+        endif
+
+        call add(final_parts, final_part)
     endfor
 
     let result = join(final_parts, '\')
@@ -41,10 +56,10 @@ function! s:ConvertPathToPSR4(path, substitutes)
     return result
 endfunction
 
-function! s:PastePSR4Namespace()
+function! php_auto_namespacer#PastePSR4Namespace()
     let path = expand('%')
     if line('$') == 1 && getline(1) == ''
-        let namespace = ConvertPathToPSR4(path, g:php_auto_namespacer_substitutes)
+        let namespace = php_auto_namespacer#ConvertPathToPSR4(path, g:php_auto_namespacer_substitutes)
         let class_name = expand('%:t:r')
 
         if namespace == ''
@@ -57,5 +72,5 @@ endfunction
 
 augroup php_auto_namespacer_on_buf_read_group
     autocmd!
-    autocmd BufRead * call PastePSR4Namespace()
+    autocmd BufRead * call php_auto_namespacer#PastePSR4Namespace()
 augroup END
