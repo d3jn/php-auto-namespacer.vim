@@ -1,5 +1,5 @@
 # php-auto-namespacer.vim
-Simple Vim plugin that defines PSR-4 namespaces for your new PHP files based on their relative path.
+Simple Vim plugin that namespaces (PSR-4) your PHP files using their paths.
 
 ## Installation
 Nothing fancy here, just use your preferred package manager. For example, [vim-plug](https://github.com/junegunn/vim-plug):
@@ -25,20 +25,20 @@ class Baz
 }
 ```
 
-Proceed with coding and write the changes whenever you feel like it.
+Note that those changes are made to the buffer only and are not written down.
 
 ## Configuration
-### `php_auto_namespacer_substitutes`
-You can specify substitution map for directory names of your file's path. Plugin will replace matched names when determining the namespace. By default it's defined like this:
+### `php_auto_namespacer_map`
+This map is mimicking Composer's autoload map for PSR-4. You can specify base paths (relative to your CWD) and global namespaces to use for all PHP files inside those paths. Plugin will replace matched base paths when determining the namespace for a file. By default it's defined like this:
 
 ```vim
-let g:php_auto_namespacer_substitutes = {
-\   'app': 'App',
+let g:php_auto_namespacer_map = {
+\   'app/': 'App',
 \   'src': ''
 \}
 ```
 
-Meaning that `app` directory name will be replaced with `App` namespace (this comes from Laravel projects - it autoloads project's `app/` contents into `App` namespace), while `src` directory will be omitted from resulting namespace completely. Override this dictionary based on your common `composer.json` PSR-4 autoload settings in your projects.
+This means that files inside `app` directory will be scoped with `App` namespace (this mimics Laravel's default autoload configuration for it's projects), while `src` directory will be omitted from resulting namespace completely. Override this option based on common `composer.json` PSR-4 `autoload` settings used inside your projects.
 
 ## Authors/contributors
 Serhii Yaniuk - [d3jn](https://twitter.com/d3jn_)
