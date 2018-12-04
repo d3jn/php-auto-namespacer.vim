@@ -74,5 +74,5 @@ endfunction
 
 augroup php_auto_namespacer_on_buf_read_group
     autocmd!
-    autocmd BufRead * call php_auto_namespacer#PastePSR4Namespace()
+    autocmd BufRead *.php call php_auto_namespacer#PastePSR4Namespace()
 augroup END
