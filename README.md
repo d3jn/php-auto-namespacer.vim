@@ -41,7 +41,7 @@ let g:php_auto_namespacer_map = {
 This means that files inside `app` directory will be scoped with `App` namespace (this mimics Laravel's default autoload configuration for it's projects), while `src` directory will be omitted from resulting namespace completely. Override this option based on common `composer.json` PSR-4 `autoload` settings used inside your projects.
 
 ## Authors/contributors
-Serhii Yaniuk - [d3jn](https://twitter.com/d3jn_)
+* Serhii Yaniuk - [d3jn](https://twitter.com/d3jn_)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
